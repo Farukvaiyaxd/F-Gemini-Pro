@@ -1,65 +1,64 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="bn">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="FARUK's official page - A personal space for ideas, projects, and growth.">
-    <meta name="keywords" content="FARUK, Personal Portfolio, Web Developer, Designer, Bangladesh, Anime">
-    <meta name="author" content="FARUK">
-    <title>FARUK | Digital Creator</title>
-
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&family=Lora:wght@700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
-    <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
-
+    <title>F Gemini Pro Chat</title>
+    <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+    
     <style>
         :root {
-            --primary-blue: #007bff;
-            --primary-blue-light: #3395ff;
-            --dark-bg: #1a1a2e;
-            --light-bg: #f0f5ff;
-            --text-dark: #212529;
-            --text-light: #f8f9fa;
-            --text-muted-dark: #6c757d;
-            --text-muted-light: #adb5bd;
-            --card-dark-bg: rgba(26, 26, 46, 0.7);
-            --card-light-bg: rgba(255, 255, 255, 0.8);
-            --card-dark-border: rgba(255, 255, 255, 0.15);
-            --card-light-border: rgba(0, 0, 0, 0.1);
+            --body-bg: #FFFFFF;
+            --chat-bg: #FFFFFF;
+            --header-bg: #FFFFFF;
+            --user-msg-bg: #EAF1FB;
+            --bot-msg-bg: #F8F9FA;
+            --input-bg: #F0F2F5;
+            --border-color: #DADCE0;
+            --text-primary: #1F1F1F;
+            --text-secondary: #5F6368;
+            --accent-color: #1A73E8;
+            --hover-bg: #F1F3F4;
+            --shadow-color: rgba(0,0,0,0.05);
+            --highlight-bg: #D2E3FC;
+            --code-bg: #F1F3F4;
+            --icon-color: var(--text-secondary);
+            --warning-text: #D97706; 
+            --warning-bg: rgba(245, 158, 11, 0.1);
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            scroll-behavior: smooth;
+        body.dark-mode {
+            --body-bg: #131314;
+            --chat-bg: #1E1F20;
+            --header-bg: #1E1F20;
+            --user-msg-bg: #2E3A46;
+            --bot-msg-bg: #2D2E30;
+            --input-bg: #2D2E30;
+            --border-color: #3B3C3E;
+            --text-primary: #E3E3E3;
+            --text-secondary: #9AA0A6;
+            --accent-color: #8AB4F8;
+            --hover-bg: #3B3C3E;
+            --shadow-color: rgba(0,0,0,0.2);
+            --highlight-bg: #28354A;
+            --code-bg: #131314;
+            --icon-color: var(--text-primary);
+            --warning-text: #FBBF24;
+            --warning-bg: rgba(251, 191, 36, 0.15);
+        }
+        
+        body { font-family: 'Google Sans', 'Roboto', sans-serif; background-color: var(--body-bg); color: var(--text-primary); margin: 0; height: 100vh; overflow: hidden; display: flex; justify-content: center; }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.95); }
+            to { opacity: 1; transform: scale(1); }
         }
 
-        body {
-            font-family: 'Montserrat', sans-serif;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 2rem 1rem;
-            transition: background-color 0.5s ease, color 0.5s ease;
-            overflow-x: hidden;
-            background-color: var(--dark-bg);
-            color: var(--text-light);
-            position: relative;
-        }
-
-        #particles-js {
-            position: fixed;
-            width: 100%;
-            height: 100%;
-            background-color: #1a1a2e;
-            z-index: -1;
-            top: 0;
-            left: 0;
-        }
-        body.light-mode #particles-js {
-            background-color: #f0f5ff;
+        @keyframes bobbing {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-15px); }
+            100% { transform: translateY(0px); }
         }
 
         #splash-screen {
@@ -68,426 +67,687 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: #1a1a2e;
-            z-index: 9999;
+            background-color: var(--body-bg);
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            color: var(--text-light);
-            transition: opacity 0.7s ease-out;
-        }
-
-        .splash-content {
             text-align: center;
-        }
-        
-        .splash-text-arabic {
-            font-family: 'Lora', serif;
-            font-size: 2.8rem;
-            opacity: 0;
-            transform: translateY(30px);
-            animation: fadeInSlideUpSplash 1.2s ease-out 0.5s forwards;
-            color: var(--primary-blue);
-            text-shadow: 0 0 15px rgba(0, 123, 255, 0.6);
-        }
-
-        .splash-text-welcome {
-            font-family: 'Montserrat', sans-serif;
-            font-size: 2rem;
-            letter-spacing: 3px;
-            margin-top: 20px;
-            opacity: 0;
-            transform: translateY(30px);
-            animation: fadeInSlideUpSplash 1.2s ease-out 1.5s forwards;
-            font-weight: 600;
-        }
-
-        @keyframes fadeInSlideUpSplash {
-            from { opacity: 0; transform: translateY(30px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        body.light-mode {
-            background-color: var(--light-bg);
-            color: var(--text-dark);
-        }
-        
-        .container {
-            max-width: 720px;
-            width: 100%;
-            text-align: center;
+            z-index: 9999;
             padding: 20px;
-            position: relative;
-            z-index: 2;
+            box-sizing: border-box;
+            animation: fadeIn 0.8s ease-in-out;
         }
-        
-        .controls {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            display: flex;
-            gap: 15px;
-            z-index: 1000;
+        .splash-emoji {
+            font-size: 5em;
+            margin-bottom: 20px;
+            animation: bobbing 3s ease-in-out infinite;
         }
-        .control-btn {
-            width: 45px;
-            height: 45px;
+        #splash-title {
+             font-size: 2.5em;
+             margin: 0;
+             color: var(--text-primary);
+             min-height: 1.2em;
+        }
+        #splash-subtitle {
+            font-size: 1.1em;
+            color: var(--text-secondary);
+            max-width: 500px;
+            margin: 15px 0;
+            min-height: 3.5em;
+        }
+        #enter-chat-btn {
+            background-color: var(--accent-color);
+            color: white;
             border: none;
+            padding: 10px 24px;
+            font-size: 1em;
+            font-weight: 500;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: opacity 0.5s ease-in-out, transform 0.2s ease, box-shadow 0.2s ease;
+            opacity: 0;
+            transform: translateY(10px);
+        }
+        #enter-chat-btn.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        #enter-chat-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+        }
+        .telegram-join-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background-color: #2AABEE;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: transform 0.2s ease, filter 0.2s ease;
+        }
+        .telegram-join-button:hover {
+            transform: scale(1.05);
+            filter: brightness(110%);
+        }
+        .telegram-join-button svg {
+            width: 24px;
+            height: 24px;
+            fill: white;
+        }
+        .warning-message {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            border-radius: 8px;
+            background-color: var(--warning-bg);
+            color: var(--warning-text);
+            font-size: 0.9em;
+            font-weight: 500;
+            max-width: 90%;
+            margin-top: 20px;
+        }
+        .warning-message .material-symbols-outlined {
+            font-size: 20px;
+        }
+        .splash-buttons-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .chat-container { width: 100%; max-width: 900px; height: 100vh; display: flex; flex-direction: column; overflow: hidden; background-color: var(--chat-bg); box-shadow: 0 1px 2px 0 var(--shadow-color), 0 2px 6px 2px var(--shadow-color); }
+        .chat-header { background: var(--header-bg); padding: 12px 20px; border-bottom: 1px solid var(--border-color); flex-shrink: 0; display: flex; justify-content: space-between; align-items: center; gap: 15px; }
+        .header-left { display: flex; align-items: center; gap: 10px; }
+        .title-and-model-selector { display: flex; flex-direction: column; align-items: flex-start; }
+        #theme-toggle-button, #history-menu-btn { background: none; border: none; cursor: pointer; padding: 8px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--icon-color); transition: background-color 0.2s ease; }
+        #theme-toggle-button:hover, #history-menu-btn:hover { background-color: var(--hover-bg); }
+        
+        .header-title { font-size: 1.6em; font-weight: 700; color: var(--text-primary); min-height: 1.2em; }
+        .gemini-icon { font-size: 28px; background: -webkit-linear-gradient(45deg, #4285F4, #9b72cb, #d96570, #EA4335, #FBBC04, #34A853); -webkit-background-clip: text; -webkit-text-fill-color: transparent; animation: icon-shake 2s ease-in-out infinite alternate; }
+        @keyframes icon-shake { 0%, 100% { transform: rotate(0deg) scale(1); } 25% { transform: rotate(15deg) scale(1.1); } 75% { transform: rotate(-15deg) scale(1.1); } }
+
+        .header-right { display: flex; align-items: center; }
+        .custom-select-container { position: relative; margin-top: 4px; }
+        .selected-model-display { padding: 4px 12px; border: 1px solid transparent; border-radius: 16px; background-color: transparent; cursor: pointer; display: flex; align-items: center; transition: all 0.2s ease; }
+        .selected-model-display:hover { background-color: var(--hover-bg); border-color: var(--border-color); }
+        .model-display-text .model-name { font-size: 0.9em; font-weight: 400; color: var(--text-secondary); }
+        .selected-model-display .material-symbols-outlined { font-size: 20px; transition: transform 0.3s ease; color: var(--text-secondary); }
+        .model-options-list { position: absolute; top: calc(100% + 5px); left: 0; width: auto; min-width: 250px; background-color: var(--chat-bg); border: 1px solid var(--border-color); border-radius: 12px; box-shadow: 0 4px 12px var(--shadow-color); z-index: 1000; overflow: hidden; visibility: hidden; opacity: 0; transition: all 0.2s ease-out; }
+        .model-options-list.open { visibility: visible; opacity: 1; }
+        .model-option { padding: 12px 16px; cursor: pointer; transition: background-color 0.2s; font-size: 0.9em; display: flex; justify-content: space-between; align-items: center; }
+        .model-option .speed { font-size: 0.9em; color: var(--text-secondary); margin-left: 15px; }
+        .model-option:not(:last-child) { border-bottom: 1px solid var(--hover-bg); }
+        .model-option:hover { background-color: var(--hover-bg); }
+        .chat-window { flex-grow: 1; padding: 20px; overflow-y: auto; display: flex; flex-direction: column; gap: 15px; }
+        
+        .message-wrapper { display: flex; max-width: 85%; align-items: flex-start; gap: 10px; position: relative; }
+        .message-wrapper.highlight { background-color: var(--highlight-bg); }
+        .user-message-wrapper { align-self: flex-end; flex-direction: row-reverse; }
+        .bot-message-wrapper { align-self: flex-start; }
+        
+        .message-icon { width: 32px; height: 32px; border-radius: 50%; background-color: var(--hover-bg); display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 4px; color: var(--icon-color); }
+        .message-icon .material-symbols-outlined { font-size: 20px; }
+        .user-icon .material-symbols-outlined {
+            background: -webkit-linear-gradient(45deg, #4285F4, #d96570, #FBBC04);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .bot-icon .material-symbols-outlined { background: -webkit-linear-gradient(45deg, #4285F4, #9b72cb, #d96570); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+
+        .message-content { width: 100%; }
+        .edit-btn { position: absolute; top: 0; right: 42px; background: var(--chat-bg); border: 1px solid var(--border-color); border-radius: 50%; width: 28px; height: 28px; cursor: pointer; display: flex; align-items: center; justify-content: center; color: var(--icon-color); opacity: 0; transition: opacity 0.2s, background-color 0.2s; z-index: 1; }
+        .message-wrapper:hover .edit-btn { opacity: 1; }
+        .edit-btn:hover { background-color: var(--hover-bg); }
+        .edit-btn .material-symbols-outlined { font-size: 16px; }
+
+        .message { max-width: 100%; padding: 12px 18px; border-radius: 18px; line-height: 1.6; word-wrap: break-word; font-size: 0.95em; white-space: pre-wrap; }
+        .message.editing { box-shadow: 0 0 0 2px var(--accent-color); background-color: var(--chat-bg); }
+        .user-message { background-color: var(--user-msg-bg); color: var(--text-primary); }
+        .bot-message { background-color: var(--bot-msg-bg); border: 1px solid var(--border-color); color: var(--text-primary); }
+
+        .chat-footer { display: flex; padding: 15px 20px; background-color: var(--chat-bg); border-top: 1px solid var(--border-color); align-items: center; gap: 10px; flex-shrink: 0; }
+        #message-input { flex-grow: 1; border: 1px solid var(--border-color); padding: 14px 20px; border-radius: 25px; background-color: var(--input-bg); color: var(--text-primary); font-size: 1em; outline: none; resize: none; min-height: 20px; max-height: 100px; }
+        #send-button { background: transparent; border: none; border-radius: 50%; width: 48px; height: 48px; display: flex; justify-content: center; align-items: center; cursor: pointer; transition: background-color 0.2s; flex-shrink: 0; color: var(--icon-color); }
+        #send-button:hover { background-color: var(--hover-bg); }
+        
+        .typing-indicator-container { display: flex; align-items: center; justify-content: center; height: 100%; padding: 0 10px; }
+        .typing-dot { width: 8px; height: 8px; margin: 0 3px; background-color: var(--text-secondary); border-radius: 50%; animation: typing-bounce 1.4s infinite ease-in-out both; }
+        .typing-dot:nth-child(1) { animation-delay: -0.32s; } .typing-dot:nth-child(2) { animation-delay: -0.16s; } .typing-dot:nth-child(3) { animation-delay: 0s; }
+        @keyframes typing-bounce { 0%, 80%, 100% { transform: scale(0); } 40% { transform: scale(1.0); } }
+        
+        .credit-footer { text-align: center; padding: 8px; font-size: 0.8em; font-weight: 500; background-color: var(--chat-bg); flex-shrink: 0; min-height: 1.2em; display: flex; align-items: center; justify-content: center; gap: 10px; }
+        #credit-text { background: linear-gradient(90deg, #ff2d95, #00A6A6, #A23B72, #F0A202, #6ABD45, #C200FB, #ff2d95); background-size: 400% 100%; -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; animation: animateCreditGradient 10s linear infinite; }
+        @keyframes animateCreditGradient { 0% { background-position: 0% 50%; } 100% { background-position: 400% 50%; } }
+
+        #history-panel { position: fixed; top: 0; right: 0; width: 320px; height: 100%; background-color: var(--chat-bg); border-left: 1px solid var(--border-color); box-shadow: -2px 0 10px var(--shadow-color); z-index: 1100; display: flex; flex-direction: column; transform: translateX(100%); transition: transform 0.3s ease-in-out; }
+        #history-panel.visible { transform: translateX(0); }
+        .history-header { display: flex; justify-content: space-between; align-items: center; padding: 16px 20px; border-bottom: 1px solid var(--border-color); flex-shrink: 0; }
+        .history-header h3 { margin: 0; font-weight: 500; }
+        #close-history-btn { background: none; border: none; font-size: 1.5em; cursor: pointer; color: var(--icon-color); }
+        #history-content { flex-grow: 1; overflow-y: auto; padding: 10px; }
+        .history-item { padding: 8px; border-bottom: 1px solid var(--hover-bg); font-size: 0.9em; cursor: pointer; border-radius: 4px; }
+        .history-item:hover { background-color: var(--hover-bg); }
+        .history-item .role { font-weight: 700; color: var(--accent-color); }
+        .history-item .text { color: var(--text-secondary); white-space: pre-wrap; word-wrap: break-word; overflow: hidden; text-overflow: ellipsis; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
+        .history-footer { padding: 15px; border-top: 1px solid var(--border-color); flex-shrink: 0; }
+        #delete-history-btn { width: 100%; padding: 10px; background-color: #D93025; color: white; border: none; border-radius: 8px; cursor: pointer; }
+        
+        pre { background-color: var(--code-bg); border: 1px solid var(--border-color); border-radius: 8px; padding: 15px; overflow-x: auto; white-space: pre-wrap; position: relative; }
+        code { font-family: 'Courier New', Courier, monospace; font-size: 0.9em; color: var(--text-primary); }
+        pre button.copy-code-btn { position: absolute; top: 8px; right: 8px; background: var(--chat-bg); border: 1px solid var(--border-color); color: var(--icon-color); border-radius: 6px; cursor: pointer; opacity: 0.6; transition: opacity 0.2s; display: flex; align-items: center; padding: 4px 6px; }
+        pre:hover button.copy-code-btn { opacity: 1; }
+        pre button.copy-code-btn .material-symbols-outlined { font-size: 16px; }
+
+        .message-toolbar {
+            display: flex;
+            gap: 4px;
+            position: absolute;
+            bottom: -20px;
+            left: 52px;
+            opacity: 0;
+            transition: opacity 0.2s ease-in-out;
+        }
+        .user-message-wrapper .message-toolbar {
+            left: auto;
+            right: 52px;
+        }
+        .message-wrapper:hover .message-toolbar {
+            opacity: 1;
+        }
+        .toolbar-btn {
+            background: var(--chat-bg);
+            border: 1px solid var(--border-color);
             border-radius: 50%;
+            width: 28px;
+            height: 28px;
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.2rem;
-            transition: all 0.3s ease;
-            color: white;
-            background: var(--primary-blue);
-            box-shadow: 0 4px 15px rgba(0, 123, 255, 0.4);
+            color: var(--icon-color);
         }
-        .control-btn:hover {
-            background: var(--primary-blue-light);
-            transform: scale(1.1);
+        .toolbar-btn:hover {
+            background-color: var(--hover-bg);
         }
-
-        audio { display: none; }
-
-        .profile-card, section {
-            padding: 30px;
-            margin-bottom: 30px;
-            border-radius: 16px;
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            transition: all 0.3s ease;
+        .toolbar-btn .material-symbols-outlined {
+            font-size: 16px;
         }
-        body.dark-mode .profile-card, body.dark-mode section {
-            background: var(--card-dark-bg);
-            border: 1px solid var(--card-dark-border);
-        }
-        body.light-mode .profile-card, body.light-mode section {
-            background: var(--card-light-bg);
-            border: 1px solid var(--card-light-border);
-        }
-        .profile-card:hover, section:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 30px rgba(0, 123, 255, 0.3);
-            border-color: var(--primary-blue-light);
-        }
-        
-        .profile-img {
-            width: 150px;
-            height: 150px;
-            border-radius: 50%;
-            border: 4px solid var(--primary-blue);
-            object-fit: cover;
-            box-shadow: 0 0 25px rgba(0, 123, 255, 0.5);
-            margin-bottom: 20px;
-            transition: transform 0.3s ease;
-        }
-        .profile-img:hover {
-            transform: scale(1.05);
-        }
-
-        h1 {
-            font-family: 'Lora', serif;
-            font-size: 2.8rem;
-            font-weight: 700;
-            margin-bottom: 5px;
-        }
-        body.light-mode h1 { color: var(--text-dark); }
-        body.dark-mode h1 { color: var(--text-light); }
-        
-        /* ***** এই অংশটি পরিবর্তন করা হয়েছে ***** */
-        h1 span {
-          background: linear-gradient(45deg, var(--primary-blue-light), #9400D3);
-          -webkit-background-clip: text;
-          background-clip: text;
-          -webkit-text-fill-color: transparent;
-          color: transparent;
-          filter: drop-shadow(0 0 8px rgba(0, 123, 255, 0.6));
-        }
-
-        p.tagline {
-            font-size: 1.1rem;
-            margin-bottom: 25px;
-        }
-        body.light-mode p.tagline { color: var(--text-muted-dark); }
-        body.dark-mode p.tagline { color: var(--text-muted-light); }
-        .profile-info {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 15px;
-            justify-content: center;
-            list-style: none;
-            padding: 0;
-            margin-top: 20px;
-        }
-        .info-item {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            padding: 8px 15px;
-            border-radius: 10px;
-            font-size: 0.9rem;
-            transition: all 0.2s ease;
-        }
-        body.dark-mode .info-item { background: rgba(0,0,0,0.2); }
-        body.light-mode .info-item { background: rgba(0,0,0,0.05); }
-        .info-item i { color: var(--primary-blue); }
-        .info-item:hover {
-            transform: scale(1.05);
-            background: var(--primary-blue);
-            color: white;
-        }
-        .info-item:hover i {
-            color: white;
-        }
-
-        .link-list {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 15px;
-            margin-top: 20px;
-        }
-        .link-btn {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 15px 20px;
-            text-decoration: none;
-            font-size: 1rem;
-            font-weight: 600;
-            border-radius: 12px;
-            transition: all 0.3s ease;
-            border: 1px solid transparent;
-        }
-        body.dark-mode .link-btn {
-            background: rgba(0, 123, 255, 0.1);
-            border-color: rgba(0, 123, 255, 0.3);
-            color: var(--text-light);
-        }
-        body.light-mode .link-btn {
-            background: rgba(0, 123, 255, 0.1);
-            border-color: rgba(0, 123, 255, 0.4);
-            color: var(--text-dark);
-        }
-        .link-btn:hover {
-            transform: translateY(-5px);
-            background: var(--primary-blue);
-            color: #fff;
-            border-color: var(--primary-blue);
-            box-shadow: 0 5px 20px rgba(0, 123, 255, 0.4);
-        }
-
-        h2 {
-            font-size: 2rem;
-            font-weight: 700;
-            margin-bottom: 25px;
-            font-family: 'Lora', serif;
-            color: var(--primary-blue);
-        }
-        p {
-            font-size: 1rem;
-            line-height: 1.8;
-            max-width: 600px;
-            margin: 0 auto 20px;
-        }
-        
-        blockquote {
-            font-size: 1.1rem;
-            font-style: italic;
-            border-left: 5px solid var(--primary-blue);
-            padding-left: 20px;
-            margin: 40px auto;
-            max-width: 550px;
-            text-align: left;
-        }
-        footer {
-            margin-top: 60px;
-            font-size: 0.9rem;
-            padding: 20px 0;
-            border-top: 1px solid var(--card-dark-border);
-        }
-        body.light-mode footer { border-top-color: var(--card-light-border); }
-        
-        @media (max-width: 768px) {
-            .container { max-width: 100%; }
-            h1 { font-size: 2.2rem; }
-            h2 { font-size: 1.8rem; }
-            p { font-size: 0.95rem; }
-            .splash-text-arabic { font-size: 2rem; }
-            .splash-text-welcome { font-size: 1.5rem; }
+        .toolbar-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
         }
     </style>
 </head>
-<body class="dark-mode">
-
-    <div id="particles-js"></div>
-
+<body>
     <div id="splash-screen">
-        <div class="splash-content">
-            <h1 class="splash-text-arabic">আসসালামুয়ালাইকুম</h1>
-            <h2 class="splash-text-welcome">WELCOME</h2>
+        <div class="splash-emoji">🤖</div>
+        <h1 id="splash-title"></h1>
+        <p id="splash-subtitle"></p>
+        <p class="warning-message">
+            <span class="material-symbols-outlined">security</span>
+            আপনার গোপনীয়তা আমাদের কাছে গুরুত্বপূর্ণ। সুরক্ষার জন্য ব্যক্তিগত তথ্য শেয়ার করবেন না।
+        </p>
+        <div class="splash-buttons-container">
+            <button id="enter-chat-btn">Start Chatting</button>
+            <a href="https://t.me/VPSHUB_BD" target="_blank" class="telegram-join-button">
+                <svg viewBox="0 0 24 24" fill="currentColor" height="24px" width="24px"><path d="M9.78,18.46c-0.18,0-0.35-0.07-0.49-0.2s-0.21-0.32-0.21-0.51s0.07-0.37,0.21-0.51l1.64-1.64L9.29,14.14 c-0.14-0.14-0.21-0.32-0.21-0.51s0.07-0.37,0.21-0.51c0.14-0.14,0.32-0.21,0.51-0.21s0.37,0.07,0.51,0.21l2.13,2.13 c0.14,0.14,0.21,0.32,0.21,0.51s-0.07,0.37-0.21,0.51l-2.13,2.13C10.13,18.39,9.96,18.46,9.78,18.46z M12,24 c-3.31,0-6.22-1.34-8.49-3.51S0,15.31,0,12S1.34,5.78,3.51,3.51S8.69,0,12,0s6.22,1.34,8.49,3.51S24,8.69,24,12 s-1.34,6.22-3.51,8.49S15.31,24,12,24z M12,21.88c2.73,0,5.1-1.08,6.99-2.97s2.97-4.26,2.97-6.99s-1.08-5.1-2.97-6.99 S14.73,2.12,12,2.12S6.9,3.19,5.01,5.07S2.12,9.27,2.12,12s1.08,5.1,2.97,6.99S9.27,21.88,12,21.88z"/></svg>
+                <span>Join Telegram Channel</span>
+            </a>
+        </div>
+    </div>
+
+    <div class="chat-container" style="display: none;">
+        <header class="chat-header">
+            <div class="header-left">
+                <button id="theme-toggle-button" title="Toggle theme"><span class="material-symbols-outlined" id="theme-icon">light_mode</span></button>
+                <span class="material-symbols-outlined gemini-icon">auto_awesome</span>
+                <div class="title-and-model-selector">
+                    <div class="header-title"></div>
+                    <div id="custom-model-selector" class="custom-select-container"></div>
+                </div>
+            </div>
+            <div class="header-right">
+                <button id="history-menu-btn" title="Chat History"><span class="material-symbols-outlined">more_vert</span></button>
+            </div>
+        </header>
+        <main class="chat-window" id="chat-window"></main>
+        <footer class="chat-footer">
+            <textarea id="message-input" placeholder="আপনার বার্তা লিখুন..." rows="1"></textarea>
+            <button id="send-button"><span class="material-symbols-outlined">send</span></button>
+        </footer>
+        <div class="credit-footer">
+            <span id="credit-text"></span>
         </div>
     </div>
     
-    <audio id="welcome-voice" preload="auto">
-        <source src="https://github.com/KenHV/Misaka-builds/releases/download/2024-05-18/welcome-voice.mp3" type="audio/mp3">
-    </audio>
-
-    <div class="controls">
-        <button class="control-btn music-toggle" onclick="toggleMusic()" aria-label="Toggle Music">
-            <i class="fas fa-music" id="music-icon"></i>
-        </button>
-        <button class="control-btn theme-toggle" onclick="toggleTheme()" aria-label="Toggle Theme">
-            <i class="fas fa-sun" id="theme-icon"></i>
-        </button>
-    </div>
-    
-    <audio id="bgm" loop>
-        <source src="https://github.com/jubairbro/Faw/raw/refs/heads/main/audio.mp3" type="audio/mp3">
-    </audio>
-
-    <div class="container">
-        <header class="profile-card" data-aos="fade-down">
-            <img src="https://i.ibb.co/bqnSZhH/Picsart-25-08-27-23-42-22-122.png" alt="FARUK - Anime Profile" class="profile-img">
-            <h1><span>FARUK</span></h1>
-            <p class="tagline">Digital Creator & Enthusiast.</p>
-            <ul class="profile-info">
-                <li class="info-item"><i class="fas fa-laptop-code"></i> Creative Mind</li>
-                <li class="info-item"><i class="fas fa-map-marker-alt"></i> Bangladesh</li>
-                <li class="info-item"><i class="fas fa-mosque"></i> Alhamdulillah for Islam</li>
-            </ul>
-        </header>
-
-        <section class="about" data-aos="fade-right" data-aos-delay="100">
-            <h2>About Me</h2>
-            <p>While I may not have any special talent, I am always here to help. If you ever need assistance with anything, please feel free to reach out. I'll do my very best for you. 💗</p>
-        </section>
-
-        <section class="telegram-link" data-aos="fade-up" data-aos-delay="200">
-            <h2>Connect with Me</h2>
-            <div class="link-list">
-                <a href="https://t.me/VPSHUB_BD" class="link-btn" target="_blank" rel="noopener noreferrer"><i class="fab fa-telegram-plane"></i> My Telegram Channel</a>
-            </div>
-        </section>
-        
-        <section class="vision" data-aos="fade-right" data-aos-delay="300">
-            <h2>আমার লক্ষ্য</h2>
-            <p>আমার জীবনের লক্ষ্য খুব বড় কিছু নয়, বরং খুব সাধারণ। আমি একজন সৎ ও সাধারণ মানুষ হিসেবে জীবন কাটাতে চাই। আমি বিশ্বাস করি, আল্লাহ আমাদের প্রত্যেকের জন্য সুন্দর একটি পরিকল্পনা করে রেখেছেন, আর আমার কাজ হলো সেই পথে সততা ও পরিশ্রমের সাথে হেঁটে যাওয়া।</p>
-            <p>আমার স্বপ্ন হলো, নিজের পরিবার ও চারপাশের মানুষদের মুখে হাসি ফোটানো। আমার সামান্য জ্ঞান বা দক্ষতা দিয়ে যদি কারো উপকার করতে পারি বা কারো জীবনে একটু আনন্দ নিয়ে আসতে পারি, তবেই আমি সফল। বড় কোনো খ্যাতি বা অর্জনের পেছনে না ছুটে, একজন ভালো মানুষ হয়ে সবার হৃদয়ে বেঁচে থাকাই আমার একমাত্র চাওয়া।</p>
-        </section>
-
-        <section class="contact" data-aos="fade-up" data-aos-delay="400">
-            <h2>Get In Touch</h2>
-            <p>Have a question or a project in mind? Feel free to reach out. I'm always open to discussing new ideas and opportunities.</p>
-            <div class="link-list contact-links">
-                <a href="mailto:farukvaiya999@gmail.com" class="link-btn" target="_blank" rel="noopener noreferrer"><i class="fas fa-envelope"></i> Email Me</a>
-                <a href="tel:+8809638620524" class="link-btn" target="_blank" rel="noopener noreferrer"><i class="fas fa-phone"></i> Call Me</a>
-            </div>
-        </section>
-
-        <footer>
-            © 2025 FARUK. All Rights Reserved. Crafted with <i class="fas fa-heart" style="color: #007bff;"></i> in Bangladesh.
-        </footer>
+    <div id="history-panel">
+        <div class="history-header">
+            <h3>Chat History</h3>
+            <button id="close-history-btn" title="Close">&times;</button>
+        </div>
+        <div id="history-content"></div>
+        <div class="history-footer">
+            <button id="delete-history-btn">Clear All History</button>
+        </div>
     </div>
 
-    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
-    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
     <script>
-      AOS.init({
-        duration: 800,
-        once: true,
-        offset: 100,
-      });
+        document.addEventListener('DOMContentLoaded', () => {
+            
+            const splashScreen = document.getElementById('splash-screen');
+            const chatContainer = document.querySelector('.chat-container');
+            const enterChatBtn = document.getElementById('enter-chat-btn');
 
-      particlesJS('particles-js', {
-        "particles": {
-          "number": {"value": 80, "density": {"enable": true, "value_area": 800}},
-          "color": {"value": "#ffffff"},
-          "shape": {"type": "circle"},
-          "opacity": {"value": 0.5, "random": false},
-          "size": {"value": 3, "random": true},
-          "line_linked": {"enable": true, "distance": 150, "color": "#ffffff", "opacity": 0.4, "width": 1},
-          "move": {"enable": true, "speed": 3, "direction": "none", "random": false, "straight": false, "out_mode": "out", "bounce": false}
-        },
-        "interactivity": {
-          "detect_on": "canvas",
-          "events": {"onhover": {"enable": true, "mode": "grab"}, "onclick": {"enable": true, "mode": "push"}, "resize": true},
-          "modes": {"grab": {"distance": 140, "line_linked": {"opacity": 1}}, "push": {"particles_nb": 4}}
-        },
-        "retina_detect": true
-      });
+            function runTypewriter(element, text, speed, onStep, onComplete) {
+                let i = 0;
+                element.textContent = ''; 
+                function type() {
+                    if (i < text.length) {
+                        element.textContent += text.charAt(i);
+                        i++;
+                        if (onStep) onStep();
+                        setTimeout(type, speed);
+                    } else if (onComplete) {
+                        onComplete();
+                    }
+                }
+                type();
+            }
+            
+            function startSplashScreenAnimation() {
+                const splashTitle = document.getElementById('splash-title');
+                const splashSubtitle = document.getElementById('splash-subtitle');
+                const titleText = "Assalamualaikum";
+                const subtitleText = "F Gemini Pro প্ল্যাটফর্মে আপনাকে স্বাগতম। আমি আপনার যেকোনো প্রশ্নের উত্তর দিতে প্রস্তুত। আসুন, শুরু করা যাক!";
 
-      const body = document.body;
-      const themeIcon = document.getElementById('theme-icon');
-      const audio = document.getElementById('bgm');
-      const musicIcon = document.getElementById('music-icon');
-      const particlesContainer = document.getElementById('particles-js');
+                runTypewriter(splashTitle, titleText, 120, null, () => {
+                    runTypewriter(splashSubtitle, subtitleText, 40, null, () => {
+                        enterChatBtn.classList.add('visible');
+                    });
+                });
+            }
 
-      function toggleTheme() {
-          body.classList.toggle('dark-mode');
-          body.classList.toggle('light-mode');
-          updateThemeIcon();
-          updateParticlesTheme();
-      }
-      
-      function updateThemeIcon() {
-          if (body.classList.contains('dark-mode')) {
-              themeIcon.classList.remove('fa-moon');
-              themeIcon.classList.add('fa-sun');
-          } else {
-              themeIcon.classList.remove('fa-sun');
-              themeIcon.classList.add('fa-moon');
-          }
-      }
+            enterChatBtn.addEventListener('click', () => {
+                splashScreen.style.opacity = '0';
+                splashScreen.style.transition = 'opacity 0.5s ease';
+                setTimeout(() => {
+                    splashScreen.style.display = 'none';
+                    chatContainer.style.display = 'flex';
+                    loadChatHistory();
+                }, 500);
+            });
 
-      function updateParticlesTheme() {
-          if (window.pJSDom && window.pJSDom[0] && window.pJSDom[0].pJS) {
-              const pJS = window.pJSDom[0].pJS;
-              if (body.classList.contains('dark-mode')) {
-                  particlesContainer.style.backgroundColor = '#1a1a2e';
-                  pJS.particles.color.value = "#ffffff";
-                  pJS.particles.line_linked.color = "#ffffff";
-              } else {
-                  particlesContainer.style.backgroundColor = '#f0f5ff';
-                  pJS.particles.color.value = "#333333";
-                  pJS.particles.line_linked.color = "#666666";
-              }
-              pJS.fn.particlesRefresh();
-          }
-      }
+            const headerTitle = document.querySelector('.header-title');
+            const creditText = document.getElementById('credit-text');
+            runTypewriter(headerTitle, "F Gemini Pro", 150, null, null);
+            runTypewriter(creditText, "Created By FARUK", 100, null, null);
 
-      function toggleMusic() {
-          if (audio.paused) {
-              audio.play().catch(error => console.error("Audio playback failed:", error));
-          } else {
-              audio.pause();
-          }
-      }
+            const messageInput = document.getElementById('message-input');
+            const sendButton = document.getElementById('send-button');
+            const chatWindow = document.getElementById('chat-window');
+            const customModelSelector = document.getElementById('custom-model-selector');
+            const themeToggleButton = document.getElementById('theme-toggle-button');
+            const themeIcon = document.getElementById('theme-icon');
+            const historyMenuBtn = document.getElementById('history-menu-btn');
+            const historyPanel = document.getElementById('history-panel');
+            const closeHistoryBtn = document.getElementById('close-history-btn');
+            const historyContent = document.getElementById('history-content');
+            const deleteHistoryBtn = document.getElementById('delete-history-btn');
+            
+            let chatHistory = [];
+            let selectedModelId = '';
 
-      audio.onplay = () => musicIcon.classList.replace('fa-music', 'fa-pause');
-      audio.onpause = () => musicIcon.classList.replace('fa-pause', 'fa-music');
-      
-      document.addEventListener('DOMContentLoaded', () => {
-          body.classList.add('dark-mode');
-          updateThemeIcon();
-          updateParticlesTheme();
+            const preferredModels = [
+                { id: 'gemini-2.5-flash-lite', name: 'Gemini 2.5 Flash Lite', speed: 'Fastest' },
+                { id: 'gemini-2.5-flash', name: 'Gemini 2.5 Flash', speed: 'Faster' },
+                { id: 'gemini-2.5-pro', name: 'Gemini 2.5 Pro', speed: 'Fast' },
+                { id: 'gemini-1.5-flash', name: 'Gemini 1.5 Flash', speed: 'Fastest' },
+                { id: 'gemini-1.5-pro', name: 'Gemini 1.5 Pro', speed: 'Standard' },
+                { id: 'gemini-1.5-flash-8b', name: 'Gemini 1.5 Flash 8B', speed: 'Fast' }
+            ];
 
-          const splashScreen = document.getElementById('splash-screen');
-          const welcomeVoice = document.getElementById('welcome-voice');
+            function copyToClipboard(text, element) {
+                navigator.clipboard.writeText(text).then(() => {
+                    if (element) {
+                        const originalContent = element.innerHTML;
+                        element.innerHTML = `<span class="material-symbols-outlined">done</span>`;
+                        setTimeout(() => {
+                           element.innerHTML = originalContent;
+                        }, 1500);
+                    }
+                }).catch(err => {
+                    console.error('Clipboard copy failed:', err);
+                });
+            }
 
-          if (welcomeVoice) {
-              welcomeVoice.play().catch(e => console.error("Welcome voice failed:", e));
-          }
+            function escapeHTML(str) {
+                const p = document.createElement("p");
+                p.textContent = str;
+                return p.innerHTML;
+            }
 
-          if (splashScreen) {
-              setTimeout(() => {
-                  splashScreen.style.opacity = '0';
-                  setTimeout(() => splashScreen.style.display = 'none', 700);
-              }, 3000); 
-          }
-      });
+            function loadChatHistory() {
+                const savedHistory = localStorage.getItem('geminiChatHistory');
+                chatWindow.innerHTML = '';
+                if (savedHistory && JSON.parse(savedHistory).length > 0) {
+                    chatHistory = JSON.parse(savedHistory);
+                    chatHistory.forEach((msg, index) => {
+                        if (msg.role === 'user') {
+                            appendMessage(msg.parts[0].text, true, index);
+                        } else if (msg.role === 'model') {
+                            appendFormattedMessage(msg.parts[0].text, index, false);
+                        }
+                    });
+                } else {
+                    const welcomeMessage = "Assalamualaikum! আমি আপনার AI অ্যাসিস্ট্যান্ট। আমি আপনাকে কীভাবে সাহায্য করতে পারি?";
+                    setTimeout(() => {
+                        appendFormattedMessage(welcomeMessage, 0, true);
+                        chatHistory = [{ role: 'model', parts: [{ text: welcomeMessage }] }];
+                        saveChatHistory();
+                    }, 1000);
+                }
+            }
+
+            function saveChatHistory() {
+                localStorage.setItem('geminiChatHistory', JSON.stringify(chatHistory));
+            }
+
+            function applyTheme(theme) {
+                document.body.classList.toggle('dark-mode', theme === 'dark');
+                themeIcon.textContent = theme === 'dark' ? 'dark_mode' : 'light_mode';
+            }
+            themeToggleButton.addEventListener('click', () => {
+                const newTheme = document.body.classList.contains('dark-mode') ? 'light' : 'dark';
+                localStorage.setItem('chat-theme', newTheme);
+                applyTheme(newTheme);
+            });
+            
+            function createCustomDropdown() {
+                const selectedDisplay = document.createElement('div');
+                selectedDisplay.classList.add('selected-model-display');
+                const modelDisplayText = document.createElement('span');
+                modelDisplayText.className = 'model-display-text';
+                const arrow = document.createElement('span');
+                arrow.className = 'material-symbols-outlined';
+                arrow.textContent = 'expand_more';
+                selectedDisplay.append(modelDisplayText, arrow);
+                const optionsList = document.createElement('div');
+                optionsList.classList.add('model-options-list');
+                function setModelDisplay(modelName) {
+                    modelDisplayText.innerHTML = `<span class="model-name">${modelName}</span>`;
+                }
+                preferredModels.forEach(model => {
+                    const option = document.createElement('div');
+                    option.className = 'model-option';
+                    option.dataset.id = model.id;
+                    option.innerHTML = `<span class="model-name">${model.name}</span><span class="speed">(${model.speed})</span>`;
+                    option.addEventListener('click', () => {
+                        selectedModelId = model.id;
+                        setModelDisplay(model.name);
+                        optionsList.classList.remove('open');
+                    });
+                    optionsList.appendChild(option);
+                });
+                customModelSelector.append(selectedDisplay, optionsList);
+                if (preferredModels.length > 0) {
+                    selectedModelId = preferredModels[0].id;
+                    setModelDisplay(preferredModels[0].name);
+                }
+                selectedDisplay.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    optionsList.classList.toggle('open');
+                    arrow.style.transform = optionsList.classList.contains('open') ? 'rotate(180deg)' : 'rotate(0deg)';
+                });
+            }
+
+            messageInput.addEventListener('input', () => {
+                messageInput.style.height = 'auto';
+                messageInput.style.height = `${messageInput.scrollHeight}px`;
+            });
+
+            sendButton.addEventListener('click', sendMessage);
+            messageInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMessage(); }
+            });
+
+            async function sendMessage() {
+                const userMessage = messageInput.value.trim();
+                if (userMessage === '') return;
+                appendMessage(userMessage, true, chatHistory.length);
+                chatHistory.push({ role: 'user', parts: [{ text: userMessage }] });
+                saveChatHistory();
+                messageInput.value = '';
+                messageInput.style.height = 'auto';
+                showTypingIndicator();
+                const apiUrl = `https://gemini-api-silk-two.vercel.app/generate/${selectedModelId}`;
+                try {
+                    const response = await fetch(apiUrl, {
+                        method: 'POST',
+                        headers: {'Content-Type': 'application/json'},
+                        body: JSON.stringify({ prompt: userMessage, history: chatHistory.slice(0, -1) }),
+                    });
+                    hideTypingIndicator();
+                    if (!response.ok) throw new Error(`API Error: ${response.status}`);
+                    const data = await response.json();
+                    if (data.output) {
+                        appendFormattedMessage(data.output, chatHistory.length, true);
+                        chatHistory.push({ role: 'model', parts: [{ text: data.output }] });
+                        saveChatHistory();
+                    } else {
+                        appendMessage('দুঃখিত, কোনো উত্তর পাওয়া যায়নি।', false, chatHistory.length);
+                    }
+                } catch (error) {
+                    hideTypingIndicator();
+                    console.error('Error:', error);
+                    appendFormattedMessage('দুঃখিত, কোনো ত্রুটি হয়েছে।', chatHistory.length, true);
+                }
+            }
+            
+            function addMessageToolbar(wrapper, messageDiv) {
+                const toolbar = document.createElement('div');
+                toolbar.className = 'message-toolbar';
+
+                const copyBtn = document.createElement('button');
+                copyBtn.className = 'toolbar-btn';
+                copyBtn.title = 'Copy';
+                copyBtn.innerHTML = `<span class="material-symbols-outlined">content_copy</span>`;
+                copyBtn.addEventListener('click', () => copyToClipboard(messageDiv.textContent, copyBtn));
+
+                const likeBtn = document.createElement('button');
+                likeBtn.className = 'toolbar-btn';
+                likeBtn.title = 'Like (disabled)';
+                likeBtn.innerHTML = `<span class="material-symbols-outlined">thumb_up</span>`;
+                likeBtn.disabled = true;
+
+                const dislikeBtn = document.createElement('button');
+                dislikeBtn.className = 'toolbar-btn';
+                dislikeBtn.title = 'Dislike (disabled)';
+                dislikeBtn.innerHTML = `<span class="material-symbols-outlined">thumb_down</span>`;
+                dislikeBtn.disabled = true;
+
+                toolbar.append(likeBtn, dislikeBtn, copyBtn);
+                wrapper.appendChild(toolbar);
+            }
+
+            function appendMessage(text, isUser, index) {
+                const wrapper = document.createElement('div');
+                wrapper.className = isUser ? 'message-wrapper user-message-wrapper' : 'message-wrapper bot-message-wrapper';
+                if (index !== undefined) wrapper.id = `msg-${index}`;
+                
+                const iconDiv = document.createElement('div');
+                iconDiv.className = isUser ? 'message-icon user-icon' : 'message-icon bot-icon';
+                iconDiv.innerHTML = `<span class="material-symbols-outlined">${isUser ? 'person' : 'auto_awesome'}</span>`;
+
+                const contentDiv = document.createElement('div');
+                contentDiv.className = 'message-content';
+                
+                const messageDiv = document.createElement('div');
+                messageDiv.className = isUser ? 'message user-message' : 'message bot-message';
+                messageDiv.textContent = text;
+                
+                contentDiv.appendChild(messageDiv);
+
+                if (isUser) {
+                    const editBtn = document.createElement('button');
+                    editBtn.className = 'edit-btn';
+                    editBtn.title = 'Edit';
+                    editBtn.innerHTML = `<span class="material-symbols-outlined">edit</span>`;
+                    
+                    editBtn.addEventListener('click', () => {
+                        const isEditing = messageDiv.isContentEditable;
+                        const icon = editBtn.querySelector('.material-symbols-outlined');
+
+                        if (isEditing) {
+                            messageDiv.contentEditable = false;
+                            messageDiv.classList.remove('editing');
+                            icon.textContent = 'edit';
+                            chatHistory[index].parts[0].text = messageDiv.textContent;
+                            saveChatHistory();
+                        } else {
+                            messageDiv.contentEditable = true;
+                            messageDiv.classList.add('editing');
+                            icon.textContent = 'save';
+                            messageDiv.focus();
+                        }
+                    });
+                    wrapper.appendChild(editBtn);
+                }
+
+                addMessageToolbar(wrapper, messageDiv);
+                
+                wrapper.append(contentDiv, iconDiv);
+                chatWindow.appendChild(wrapper);
+                chatWindow.scrollTop = chatWindow.scrollHeight;
+            }
+
+            function appendFormattedMessage(text, index, useAnimation) {
+                const wrapper = document.createElement('div');
+                wrapper.className = 'message-wrapper bot-message-wrapper';
+                if (index !== undefined) wrapper.id = `msg-${index}`;
+                
+                const iconDiv = document.createElement('div');
+                iconDiv.className = 'message-icon bot-icon';
+                iconDiv.innerHTML = `<span class="material-symbols-outlined">auto_awesome</span>`;
+
+                const contentDiv = document.createElement('div');
+                contentDiv.className = 'message-content';
+
+                const messageDiv = document.createElement('div');
+                messageDiv.className = 'message bot-message';
+                
+                contentDiv.append(messageDiv);
+                wrapper.append(iconDiv, contentDiv);
+                chatWindow.appendChild(wrapper);
+
+                if (useAnimation) {
+                    let i = 0;
+                    messageDiv.textContent = '';
+                    function type() {
+                        if (i < text.length) {
+                            messageDiv.textContent += text.charAt(i);
+                            i++;
+                            chatWindow.scrollTop = chatWindow.scrollHeight;
+                            setTimeout(type, 20);
+                        } else {
+                            addMessageToolbar(wrapper, messageDiv);
+                        }
+                    }
+                    type();
+                } else {
+                    messageDiv.textContent = text;
+                    addMessageToolbar(wrapper, messageDiv);
+                    chatWindow.scrollTop = chatWindow.scrollHeight;
+                }
+            }
+            
+            function showTypingIndicator() {
+                if (document.getElementById('typing-indicator')) return;
+                const wrapper = document.createElement('div');
+                wrapper.id = 'typing-indicator';
+                wrapper.className = 'message-wrapper bot-message-wrapper';
+                
+                const iconDiv = document.createElement('div');
+                iconDiv.className = 'message-icon bot-icon';
+                iconDiv.innerHTML = `<span class="material-symbols-outlined">auto_awesome</span>`;
+                
+                const messageDiv = document.createElement('div');
+                messageDiv.className = 'message bot-message';
+                const dots = document.createElement('div');
+                dots.className = 'typing-indicator-container';
+                dots.innerHTML = '<div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div>';
+                messageDiv.appendChild(dots);
+
+                wrapper.append(iconDiv, messageDiv);
+                chatWindow.appendChild(wrapper);
+                chatWindow.scrollTop = chatWindow.scrollHeight;
+            }
+
+            function hideTypingIndicator() {
+                const indicator = document.getElementById('typing-indicator');
+                if (indicator) indicator.remove();
+            }
+
+            function openHistoryPanel() {
+                historyContent.innerHTML = '';
+                if (chatHistory.length === 0) {
+                    historyContent.innerHTML = '<p style="text-align: center; color: var(--text-secondary);">No history yet.</p>';
+                } else {
+                    chatHistory.forEach((msg, index) => {
+                        const item = document.createElement('div');
+                        item.className = 'history-item';
+                        item.dataset.messageId = `msg-${index}`;
+                        const role = msg.role === 'user' ? 'You' : 'AI';
+                        const text = msg.parts[0].text;
+                        item.innerHTML = `<div class="role">${role}:</div><div class="text">${text}</div>`;
+                        item.addEventListener('click', handleHistoryItemClick);
+                        historyContent.appendChild(item);
+                    });
+                }
+                historyPanel.classList.add('visible');
+            }
+
+            function handleHistoryItemClick(event) {
+                const messageId = event.currentTarget.dataset.messageId;
+                const targetMessage = document.getElementById(messageId);
+                if (targetMessage) {
+                    closeHistoryPanel();
+                    targetMessage.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    targetMessage.classList.add('highlight');
+                    setTimeout(() => {
+                        targetMessage.classList.remove('highlight');
+                    }, 2000);
+                }
+            }
+
+            function closeHistoryPanel() { historyPanel.classList.remove('visible'); }
+            function deleteChatHistory() {
+                if (confirm('আপনি কি সব চ্যাট হিস্টোরি মুছে ফেলতে চান?')) {
+                    chatHistory = [];
+                    localStorage.removeItem('geminiChatHistory');
+                    chatWindow.innerHTML = '';
+                    historyContent.innerHTML = '';
+                    closeHistoryPanel();
+                    loadChatHistory();
+                }
+            }
+            
+            historyMenuBtn.addEventListener('click', openHistoryPanel);
+            closeHistoryBtn.addEventListener('click', closeHistoryBtn);
+            deleteHistoryBtn.addEventListener('click', deleteChatHistory);
+
+            const savedTheme = localStorage.getItem('chat-theme') || 'light';
+            applyTheme(savedTheme);
+            createCustomDropdown();
+            startSplashScreenAnimation();
+        });
     </script>
 </body>
 </html>
