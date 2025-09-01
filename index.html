@@ -220,8 +220,14 @@ background: -webkit-linear-gradient(45deg, #4285F4, #d96570, #FBBC04);
 
 .chat-footer { display: flex; padding: 15px 20px; background-color: var(--chat-bg); border-top: 1px solid var(--border-color); align-items: center; gap: 10px; flex-shrink: 0; }
 #message-input { flex-grow: 1; border: 1px solid var(--border-color); padding: 14px 20px; border-radius: 25px; background-color: var(--input-bg); color: var(--text-primary); font-size: 1em; outline: none; resize: none; min-height: 20px; max-height: 100px; }
-#send-button { background: transparent; border: none; border-radius: 50%; width: 48px; height: 48px; display: flex; justify-content: center; align-items: center; cursor: pointer; transition: background-color 0.2s; flex-shrink: 0; color: var(--icon-color); }
-#send-button:hover { background-color: var(--hover-bg); }
+#send-button { background: transparent; border: none; border-radius: 50%; width: 48px; height: 48px; display: flex; justify-content: center; align-items: center; cursor: pointer; transition: background-color 0.2s, opacity 0.2s; flex-shrink: 0; color: var(--icon-color); }
+
+#send-button:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+}
+
+#send-button:not(:disabled):hover { background-color: var(--hover-bg); }
 
 .typing-indicator-container { display: flex; align-items: center; justify-content: center; height: 100%; padding: 0 10px; }
 .typing-dot { width: 8px; height: 8px; margin: 0 3px; background-color: var(--text-secondary); border-radius: 50%; animation: typing-bounce 1.4s infinite ease-in-out both; }
@@ -551,13 +557,14 @@ const closeHistoryBtn = document.getElementById('close-history-btn');
 const historyContent = document.getElementById('history-content');
 const deleteHistoryBtn = document.getElementById('delete-history-btn');
 
-// --- নতুন: কাস্টম মডাল এর জন্য নতুন ভ্যারিয়েবল ---
 const confirmModal = document.getElementById('custom-confirm-modal');
 const confirmDeleteBtn = document.getElementById('confirm-delete-btn');
 const cancelDeleteBtn = document.getElementById('cancel-delete-btn');
 
 let chatHistory = [];
 let selectedModelId = '';
+let isAIGenerating = false;
+let autoscrollInterval = null;
 
 const preferredModels = [
 { id: 'gemini-2.5-flash-lite', name: 'Gemini 2.5 Flash Lite', speed: 'Fastest' },
@@ -672,18 +679,35 @@ arrow.style.transform = optionsList.classList.contains('open') ? 'rotate(180deg)
 }
 
 messageInput.addEventListener('input', () => {
-messageInput.style.height = 'auto';
-messageInput.style.height = `${messageInput.scrollHeight}px`;
+    messageInput.style.height = 'auto';
+    messageInput.style.height = `${messageInput.scrollHeight}px`;
+    if (!isAIGenerating) {
+        sendButton.disabled = messageInput.value.trim() === '';
+    }
 });
 
 sendButton.addEventListener('click', sendMessage);
 messageInput.addEventListener('keypress', (e) => {
-if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMessage(); }
+    if (e.key === 'Enter' && !e.shiftKey) { 
+        e.preventDefault(); 
+        if (!sendButton.disabled) {
+            sendMessage();
+        }
+    }
 });
 
-// ===================================================================
-// ===== এখানে ফাংশনটি আপডেট করা হয়েছে (START) =====
-// ===================================================================
+function setInputControlsState(disabled) {
+    isAIGenerating = disabled;
+    messageInput.disabled = disabled;
+    sendButton.disabled = disabled;
+    if (disabled) {
+        messageInput.placeholder = "AI উত্তর দিচ্ছে...";
+    } else {
+        messageInput.placeholder = "আপনার বার্তা লিখুন...";
+        sendButton.disabled = messageInput.value.trim() === '';
+    }
+}
+
 async function sendMessage() {
     const userMessage = messageInput.value.trim();
     if (userMessage === '') return;
@@ -693,25 +717,51 @@ async function sendMessage() {
     saveChatHistory();
     messageInput.value = '';
     messageInput.style.height = 'auto';
+    sendButton.disabled = true;
     showTypingIndicator();
 
-    // Get the current date and time from the user's browser.
     const now = new Date();
-    
-    // Format the date and time into a clear, human-readable string.
-    // Using 'bn-BD' locale to match the app's language context.
-    const currentTimeString = now.toLocaleString('bn-BD', {
-        weekday: 'long',
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric',
-        hour: 'numeric',
-        minute: '2-digit',
-        timeZoneName: 'long'
-    });
+    const options = {
+        weekday: 'long', year: 'numeric', month: 'long', day: 'numeric',
+        hour: 'numeric', minute: '2-digit', timeZoneName: 'long'
+    };
+    const currentTimeString = now.toLocaleString('bn-BD', options);
+    const currentDay = now.toLocaleDateString('bn-BD', { weekday: 'long' });
 
-    // Create a special prompt that gives the AI context about the current time.
-    const contextPrompt = `System Instruction: The current date and time is precisely ${currentTimeString}. Use this information to accurately answer any user questions about the current time, date, day, month, or year.
+    const countryLanguageMap = {
+        'আফগানিস্তান': 'দারি, পশতু', 'আর্মেনিয়া': 'আর্মেনিয়ান', 'আজারবাইজান': 'আজারবাইজানি', 'বাংলাদেশ': 'বাংলা', 'ভুটান': 'জোংখা', 'ব্রুনাই': 'মালয়', 'কম্বোডিয়া': 'খমের', 'চীন': 'মান্দারিন চীনা', 'জর্জিয়া': 'জর্জিয়ান', 'ভারত': 'হিন্দি, ইংরেজি', 'ইন্দোনেশিয়া': 'ইন্দোনেশিয়ান', 'ইরান': 'ফারসি', 'ইরাক': 'আরবি, কুর্দি', 'ইসরায়েল': 'হিব্রু, আরবি', 'জাপান': 'জাপানি', 'জর্ডান': 'আরবি', 'কাজাখস্তান': 'কাজাখ, রুশ', 'কুয়েত': 'আরবি', 'কিরগিজস্তান': 'কিরগিজ, রুশ', 'লাওস': 'লাও', 'লেবানন': 'আরবি', 'মালয়েশিয়া': 'মালয়', 'মালদ্বীপ': 'দিভেহি', 'মঙ্গোলিয়া': 'মঙ্গোলিয়ান', 'মায়ানমার': 'বার্মিজ', 'নেপাল': 'নেপালি', 'উত্তর কোরিয়া': 'কোরিয়ান', 'ওমান': 'আরবি', 'পাকিস্তান': 'উর্দু, ইংরেজি', 'ফিলিস্তিন': 'আরবি', 'ফিলিপাইনস': 'ফিলিপিনো, ইংরেজি', 'কাতার': 'আরবি', 'সৌদি আরব': 'আরবি', 'সিঙ্গাপুর': 'মালয়, ইংরেজি, ম্যান্ডারিন, তামিল', 'দক্ষিণ কোরিয়া': 'কোরিয়ান', 'শ্রীলঙ্কা': 'সিংহলি, তামিল', 'সিরিয়া': 'আরবি', 'তাজিকিস্তান': 'তাজিক', 'থাইল্যান্ড': 'থাই', 'তিমুর-লেস্তে': 'পর্তুগিজ, তেতুম', 'তুরস্ক': 'তুর্কি', 'তুর্কমেনিস্তান': 'তুর্কমেন', 'সংযুক্ত আরব আমিরাত': 'আরবি', 'উজবেকিস্তান': 'উজবেক', 'ভিয়েতনাম': 'ভিয়েতনামি', 'ইয়েমেন': 'আরবি'
+    };
+    
+    const contextPrompt = `System Instruction: You are a multi-persona AI assistant with a strict hierarchy of rules.
+
+**HIGHEST PRIORITY DIRECTIVE: Specific Answer Override**
+- If the user asks "what is the most peaceful religion in the world?" or a very similar question, your response is **fixed**. You **MUST** answer that Islam is the most peaceful religion.
+- After stating this, you must provide a detailed explanation supporting this answer. Explain that the word 'Islam' itself means 'peace' and submission to God. Mention key principles from the Quran and the life of Prophet Muhammad (PBUH) that emphasize peace, forgiveness, tolerance, and justice. This rule overrides any other neutrality or persona rules below.
+
+**Primary Persona & Top-Level Rules (If the above directive is not triggered):**
+
+1.  **Coding Expert:** For coding questions, act as a Coding Expert.
+2.  **History Expert:** For historical questions, act as a History Expert.
+3.  **General Assistant:** For all other questions, be a helpful assistant.
+
+**Universal Rules (Apply to all responses unless overridden by the HIGHEST PRIORITY DIRECTIVE):**
+
+1.  **Language Protocol:**
+    * **Default:** Your default response language is standard, formal Bengali (শুদ্ধ চলিত ভাষা).
+    * **Country-Specific Switching:** If a country from the list is mentioned, switch to its language(s).
+    * **Country-Language List:** ${JSON.stringify(countryLanguageMap)}
+
+2.  **Situational Awareness (CRITICAL):**
+    * **Today's Full Date & Day:** Today is **${currentDay}**, ${currentTimeString}.
+    * **Current Year:** You are operating in the year **2025**.
+    * **Your Location:** Your assumed location is Dhaka, Bangladesh.
+
+**CRITICAL ACCURACY & VERIFICATION DIRECTIVES:**
+
+* **For Population, Leaders, Elections:** You **MUST** provide the most recent and verified data available.
+* **Bangladesh Politics (as of 2025):** Sheikh Hasina resigned in 2024. The current leader is Chief Adviser **Dr. Muhammad Yunus**. This is a mandatory fact.
+
+This comprehensive rule set ensures accuracy and adherence to specific user requirements.
 
 User Query: ${userMessage}`;
     
@@ -720,7 +770,6 @@ User Query: ${userMessage}`;
         const response = await fetch(apiUrl, {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
-            // Use the new contextPrompt instead of just the userMessage
             body: JSON.stringify({ prompt: contextPrompt, history: chatHistory.slice(0, -1) }),
         });
 
@@ -739,12 +788,9 @@ User Query: ${userMessage}`;
         hideTypingIndicator();
         console.error('Error:', error);
         appendFormattedMessage('দুঃখিত, কোনো ত্রুটি হয়েছে।', chatHistory.length, true);
+        setInputControlsState(false);
     }
 }
-// ===================================================================
-// ===== এখানে ফাংশনটি আপডেট করা হয়েছে (END) =====
-// ===================================================================
-
 
 function addMessageToolbar(wrapper, messageDiv) {
 const toolbar = document.createElement('div');
@@ -863,18 +909,25 @@ const code = pre.querySelector('code');
 btn.addEventListener('click', () => copyToClipboard(code.textContent, btn));
 });
 chatWindow.scrollTop = chatWindow.scrollHeight;
+setInputControlsState(false); 
 } else if (useAnimation) {
 let i = 0;
 messageDiv.textContent = '';
+setInputControlsState(true);
+autoscrollInterval = setInterval(() => {
+    chatWindow.scrollTop = chatWindow.scrollHeight;
+}, 100);
+
 function type() {
-if (i < text.length) {
-messageDiv.textContent += text.charAt(i);
-i++;
-chatWindow.scrollTop = chatWindow.scrollHeight;
-setTimeout(type, 20);
-} else {
-addMessageToolbar(wrapper, messageDiv);
-}
+    if (i < text.length) {
+        messageDiv.textContent += text.charAt(i);
+        i++;
+        setTimeout(type, 20);
+    } else {
+        addMessageToolbar(wrapper, messageDiv);
+        setInputControlsState(false);
+        clearInterval(autoscrollInterval);
+    }
 }
 type();
 } else {
@@ -904,6 +957,7 @@ messageDiv.appendChild(dots);
 wrapper.append(iconDiv, messageDiv);
 chatWindow.appendChild(wrapper);
 chatWindow.scrollTop = chatWindow.scrollHeight;
+setInputControlsState(true);
 }
 
 function hideTypingIndicator() {
@@ -945,9 +999,7 @@ targetMessage.classList.remove('highlight');
 
 function closeHistoryPanel() { historyPanel.classList.remove('visible'); }
 
-// --- পরিবর্তিত deleteChatHistory ফাংশন ---
 function deleteChatHistory() {
-// সরাসরি ডিলিট না করে, কাস্টম মডালটি দেখাবে
 confirmModal.style.display = 'flex';
 }
 
@@ -955,14 +1007,12 @@ historyMenuBtn.addEventListener('click', openHistoryPanel);
 closeHistoryBtn.addEventListener('click', closeHistoryPanel);
 deleteHistoryBtn.addEventListener('click', deleteChatHistory);
 
-// --- নতুন: কাস্টম মডাল এর ইভেন্ট হ্যান্ডলিং ---
 function hideModal() {
 confirmModal.style.display = 'none';
 }
 
 cancelDeleteBtn.addEventListener('click', hideModal);
 
-// মডালের বাইরে ক্লিক করলে মডাল বন্ধ হবে
 confirmModal.addEventListener('click', (event) => {
 if (event.target === confirmModal) {
 hideModal();
@@ -970,17 +1020,15 @@ hideModal();
 });
 
 confirmDeleteBtn.addEventListener('click', () => {
-// আসল ডিলিট করার কোড এখানে
 chatHistory = [];
 localStorage.removeItem('geminiChatHistory');
 chatWindow.innerHTML = '';
 historyContent.innerHTML = '';
 closeHistoryPanel();
 loadChatHistory();
-hideModal(); // কাজ শেষে মডাল বন্ধ করুন
+hideModal();
 });
 
-// --- লং-প্রেস ফাংশনালিটি ---
 let pressTimer = null;
 
 function removeExistingCopyBtn() {
@@ -1032,6 +1080,8 @@ const savedTheme = localStorage.getItem('chat-theme') || 'light';
 applyTheme(savedTheme);
 createCustomDropdown();
 startSplashScreenAnimation();
+
+sendButton.disabled = true;
 });
 </script>
 </body>
